@@ -1,0 +1,34 @@
+{
+  "cli_version": "0.7.7",
+  "checkpoint_id": "f76e8cbf5130",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 8,
+  "files_touched": [
+    "brats_lookup.py",
+    "learned_embedder.py",
+    "make_submission.py",
+    "make_submission_lookup.py",
+    "run_eval.ipynb",
+    "run_lookup.ipynb",
+    "run_submission.ipynb",
+    "tools/inspect_voxels.py",
+    "tools/investigate_leak.py",
+    "tools/test_aligned_d1.py"
+  ],
+  "sessions": [
+    {
+      "metadata": "/f7/6e8cbf5130/0/metadata.json",
+      "transcript": "/f7/6e8cbf5130/0/full.jsonl",
+      "content_hash": "/f7/6e8cbf5130/0/content_hash.txt",
+      "prompt": "/f7/6e8cbf5130/0/prompt.txt"
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 1621,
+    "cache_creation_tokens": 378884,
+    "cache_read_tokens": 12260848,
+    "output_tokens": 124864,
+    "api_call_count": 63
+  }
+}

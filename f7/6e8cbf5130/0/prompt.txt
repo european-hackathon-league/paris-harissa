@@ -1,0 +1,117 @@
+like what is the strategy that were using right now for evaluating, please explain?
+is it like a CNN normal?
+are we gonna download a good model and posttrain it?
+or like try use new architectures?
+
+---
+
+but bro look at these already Leaderboard please, so i need new architectures and ideas, lets risk doing really really good stuff so i get the best predictions (so better model, or maybe enhance data even more or add new data or idk), 
+#TeamMembersScoreEntriesLastJoin
+1Lukas Sokcevic
+0.99210
+141h
+2BRAINROT-LABS
+0.80088
+341h
+3Anshu Raj
+0.71902
+612m
+4Laurence
+0.69941
+816m
+5TestTuring
+0.69502
+104m
+6Masloriji
+0.64652
+139m
+7Ilya Kondakov179
+0.61603
+330m
+8Mikhail Fadin
+0.59523
+271m
+9reubendo
+0.49772
+28h
+10Firas Mosbeh
+0.45731
+42m
+11Amine Cheikhrouhou
+0.45523
+35m
+🙂
+Your Best Entry!Your most recent submission scored 0.45523, which is the same as your previous score. Keep trying!
+12Wilfred Doré
+0.13127
+11m
+
+---
+
+i still dont have the results yet its still training, but can you start with track two? tell me if you need something from me
+
+---
+
+i got results!! its now 0,51419 score!
+
+---
+
+1-okay so username is : aminecheikhrouhou and name is Amine Cheikhrouhou 
+2-theres no accept dataset terms
+
+---
+
+root@864a199d1159:/shared-docker/amine# pip install -q kaggle
+export KAGGLE_USERNAME=aminecheikhrouhou
+export KAGGLE_KEY=PASTE_YOUR_KEY_FROM_.env
+mkdir -p /workspace/brats && cd /workspace/brats
+kaggle datasets download -d dschettler8845/brats-2021-task1 --unzip
+for t in /workspace/brats/*.tar; do tar xf "$t" -C /workspace/brats; done
+ls /workspace/brats | head        # expect BraTS2021_00000/ ... folders
+unset KAGGLE_KEY
+WARNING: Running pip as the 'root' user can result in broken permissions and conflicting behaviour with the system package manager, possibly rendering your system unusable. It is recommended to use a virtual environment instead: https://pip.pypa.io/warnings/venv. Use the --root-user-action option if you know what you are doing and want to suppress this warning.
+Dataset URL: https://www.kaggle.com/datasets/dschettler8845/brats-2021-task1
+License(s): copyright-authors
+Downloading brats-2021-task1.zip to /workspace/brats
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████| 12.3G/12.3G [01:50<00:00, 120MB/s]
+
+BraTS2021_00000
+BraTS2021_00002
+BraTS2021_00003
+BraTS2021_00005
+BraTS2021_00006
+BraTS2021_00008
+BraTS2021_00009
+BraTS2021_00011
+BraTS2021_00012
+BraTS2021_00014
+root@864a199d1159:/workspace/brats#
+
+---
+
+we got really bad results Submission and Description
+Public Score
+Select
+    submission(3).csv
+    Complete · 13s ago
+    0.366600 accuracy
+
+yooo theres also this idea that my friend suggested, he said it can actually yield good results:
+what do you think? should we stay with this or ,what
+
+
+We decided to use the *Swin UNETR* (Swin Vision Transformer) backbone, specifically initialized with MONAI's Self-Supervised Learning (SSL) pre-trained weights (model_swinvit.pt).
+
+Here is exactly why this is a massive advantage over standard models:
+
+* *True 3D Transformer:* Unlike standard ResNets that use localized 3D convolutions, the Swin ViT uses a hierarchical transformer architecture. It divides the 3D brain into patches and uses self-attention to understand the global structure of the brain across long distances.
+* *Self-Supervised Pre-training:* These specific weights weren't just trained to classify diseases. They were trained on thousands of unlabeled 3D medical scans using proxy tasks (like hiding patches of a brain and forcing the model to reconstruct them, or rotating the brain and making the model guess the angle).
+* *Modality Agnostic:* Because it was pre-trained using structural reconstruction tasks rather than pixel-perfect matching, it is incredible at understanding human anatomy regardless of whether the scan is a T1 or T2.
+
+By loading these weights into a shared encoder (Siamese network), your pipeline is essentially starting the hackathon with a model that already has a PhD in 3D brain geometry, and your contrastive training loop is just teaching it how to compare two different scans.
+
+Has the first epoch finished running? I'm curious to see what your starting MRR is with the Swin ViT plugged in.
+
+---
+
+yes please do that
