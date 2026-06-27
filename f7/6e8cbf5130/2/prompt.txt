@@ -1,0 +1,5 @@
+hey claude ive never did these ML things before especially in these brain tumors, so you wrote actually many ipynb files for many types of trainings, can you please explain how do they work so i can work on top of that
+
+---
+
+yes please do (a)

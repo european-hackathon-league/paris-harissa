@@ -1,0 +1,71 @@
+{
+  "cli_version": "0.7.7",
+  "checkpoint_id": "f76e8cbf5130",
+  "session_id": "b26f1fd8-bfd5-460c-8855-6ad9dc378792",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-27T23:33:19.442623Z",
+  "branch": "main",
+  "checkpoints_count": 2,
+  "save_step_count": 2,
+  "files_touched": [
+    "learned_embedder.py",
+    "run_eval.ipynb"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "755195bb8fce",
+  "token_usage": {
+    "input_tokens": 13655,
+    "cache_creation_tokens": 61298,
+    "cache_read_tokens": 1266871,
+    "output_tokens": 18030,
+    "api_call_count": 23
+  },
+  "session_metrics": {
+    "turn_count": 2
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-27T23:33:19.3816203Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 1521,
+    "human_modified": 13,
+    "human_removed": 0,
+    "total_committed": 1521,
+    "total_lines_changed": 1538,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 775,
+      "user_lines_removed": 13,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "brats_lookup.py": 80,
+        "learned_embedder.py": 68,
+        "make_submission.py": 124,
+        "make_submission_lookup.py": 119,
+        "run_eval.ipynb": 2,
+        "run_lookup.ipynb": 63,
+        "run_submission.ipynb": 73,
+        "tools/inspect_voxels.py": 56,
+        "tools/investigate_leak.py": 117,
+        "tools/test_aligned_d1.py": 73
+      },
+      "user_removed_per_file": {
+        "learned_embedder.py": 6,
+        "run_eval.ipynb": 7
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 775,
+      "agent_lines_removed": 13
+    }
+  ]
+}

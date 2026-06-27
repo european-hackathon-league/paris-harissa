@@ -3,7 +3,7 @@
   "checkpoint_id": "f76e8cbf5130",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 19,
+  "checkpoints_count": 21,
   "files_touched": [
     ".gitignore",
     "brats_lookup.py",
@@ -40,13 +40,19 @@
       "transcript": "/f7/6e8cbf5130/1/full.jsonl",
       "content_hash": "/f7/6e8cbf5130/1/content_hash.txt",
       "prompt": "/f7/6e8cbf5130/1/prompt.txt"
+    },
+    {
+      "metadata": "/f7/6e8cbf5130/2/metadata.json",
+      "transcript": "/f7/6e8cbf5130/2/full.jsonl",
+      "content_hash": "/f7/6e8cbf5130/2/content_hash.txt",
+      "prompt": "/f7/6e8cbf5130/2/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 23906,
-    "cache_creation_tokens": 830864,
-    "cache_read_tokens": 34361978,
-    "output_tokens": 322703,
-    "api_call_count": 183
+    "input_tokens": 37561,
+    "cache_creation_tokens": 892162,
+    "cache_read_tokens": 35628849,
+    "output_tokens": 340733,
+    "api_call_count": 206
   }
 }
