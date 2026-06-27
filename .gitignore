@@ -1,0 +1,20 @@
+# Secrets — NEVER commit
+.env
+*.key
+kaggle.json
+
+# Large data / downloads
+kaggle_dataset/
+*.zip
+*.nii
+*.nii.gz
+
+# MONAI / caches
+.monai_persistent/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS
+Thumbs.db
+.DS_Store
