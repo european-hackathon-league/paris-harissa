@@ -1,0 +1,183 @@
+{
+  "cli_version": "0.7.7",
+  "checkpoint_id": "f76e8cbf5130",
+  "session_id": "6ad00449-afe2-47f6-a585-e947415e5be4",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-27T23:33:18.5851669Z",
+  "branch": "main",
+  "checkpoints_count": 11,
+  "save_step_count": 11,
+  "files_touched": [
+    ".gitignore",
+    "brats_lookup.py",
+    "docs/progress-log.md",
+    "eval_harness.py",
+    "learned_embedder.py",
+    "make_submission_content.py",
+    "make_submission_learned.py",
+    "make_submission_lookup.py",
+    "mind_embedder.py",
+    "rankers.py",
+    "run_eval.ipynb",
+    "run_lookup.ipynb",
+    "scratch_submission.csv",
+    "tools/diag_lookup.py",
+    "tools/exp_mind_tune.py",
+    "tools/exp_rankers.py",
+    "tools/smoke_test_rankers.py"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "552466e7324f",
+  "token_usage": {
+    "input_tokens": 22285,
+    "cache_creation_tokens": 451980,
+    "cache_read_tokens": 22101130,
+    "output_tokens": 197839,
+    "api_call_count": 120
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "claude-skill-toolu_01YYjZUn6HUCUknqXtarSGnB",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "brightdata-plugin:live-research"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "552466e7324f",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 13,
+        "end": 14,
+        "entry_ids": [
+          "5e9a85b6-1719-41e8-bfbf-dd11d65783ee"
+        ],
+        "tool_use_id": "toolu_01YYjZUn6HUCUknqXtarSGnB"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_01YYjZUn6HUCUknqXtarSGnB"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: brightdata-plugin:live-research",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 11
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-27T23:33:18.4514016Z",
+    "agent_lines": 1159,
+    "agent_removed": 5,
+    "human_added": 0,
+    "human_modified": 378,
+    "human_removed": 13,
+    "total_committed": 1537,
+    "total_lines_changed": 1555,
+    "agent_percentage": 74.85530546623794,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 775,
+      "user_lines_removed": 13,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "brats_lookup.py": 80,
+        "learned_embedder.py": 68,
+        "make_submission.py": 124,
+        "make_submission_lookup.py": 119,
+        "run_eval.ipynb": 2,
+        "run_lookup.ipynb": 63,
+        "run_submission.ipynb": 73,
+        "tools/inspect_voxels.py": 56,
+        "tools/investigate_leak.py": 117,
+        "tools/test_aligned_d1.py": 73
+      },
+      "user_removed_per_file": {
+        "learned_embedder.py": 6,
+        "run_eval.ipynb": 7
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1077,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 3,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1149,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 4,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1193,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 5,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1296,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 6,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1784,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 7,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 1922,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 8,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2022,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 9,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2053,
+      "agent_lines_removed": 23
+    },
+    {
+      "checkpoint_number": 10,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2217,
+      "agent_lines_removed": 18
+    },
+    {
+      "checkpoint_number": 11,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 2325,
+      "agent_lines_removed": 18
+    }
+  ]
+}

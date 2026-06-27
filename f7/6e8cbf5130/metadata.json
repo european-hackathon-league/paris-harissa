@@ -3,17 +3,29 @@
   "checkpoint_id": "f76e8cbf5130",
   "strategy": "manual-commit",
   "branch": "main",
-  "checkpoints_count": 8,
+  "checkpoints_count": 19,
   "files_touched": [
+    ".gitignore",
     "brats_lookup.py",
+    "docs/progress-log.md",
+    "eval_harness.py",
     "learned_embedder.py",
     "make_submission.py",
+    "make_submission_content.py",
+    "make_submission_learned.py",
     "make_submission_lookup.py",
+    "mind_embedder.py",
+    "rankers.py",
     "run_eval.ipynb",
     "run_lookup.ipynb",
     "run_submission.ipynb",
+    "scratch_submission.csv",
+    "tools/diag_lookup.py",
+    "tools/exp_mind_tune.py",
+    "tools/exp_rankers.py",
     "tools/inspect_voxels.py",
     "tools/investigate_leak.py",
+    "tools/smoke_test_rankers.py",
     "tools/test_aligned_d1.py"
   ],
   "sessions": [
@@ -22,13 +34,19 @@
       "transcript": "/f7/6e8cbf5130/0/full.jsonl",
       "content_hash": "/f7/6e8cbf5130/0/content_hash.txt",
       "prompt": "/f7/6e8cbf5130/0/prompt.txt"
+    },
+    {
+      "metadata": "/f7/6e8cbf5130/1/metadata.json",
+      "transcript": "/f7/6e8cbf5130/1/full.jsonl",
+      "content_hash": "/f7/6e8cbf5130/1/content_hash.txt",
+      "prompt": "/f7/6e8cbf5130/1/prompt.txt"
     }
   ],
   "token_usage": {
-    "input_tokens": 1621,
-    "cache_creation_tokens": 378884,
-    "cache_read_tokens": 12260848,
-    "output_tokens": 124864,
-    "api_call_count": 63
+    "input_tokens": 23906,
+    "cache_creation_tokens": 830864,
+    "cache_read_tokens": 34361978,
+    "output_tokens": 322703,
+    "api_call_count": 183
   }
 }
