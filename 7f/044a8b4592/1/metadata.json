@@ -1,0 +1,60 @@
+{
+  "cli_version": "0.7.7",
+  "checkpoint_id": "7f044a8b4592",
+  "session_id": "81ba6b87-aa3a-409e-acac-9d25ed2c1430",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-27T15:21:11.7409018Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "save_step_count": 1,
+  "files_touched": [
+    "kaggle_baseline.py"
+  ],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "cd455fa2b9c8",
+  "token_usage": {
+    "input_tokens": 13234,
+    "cache_creation_tokens": 22025,
+    "cache_read_tokens": 171772,
+    "output_tokens": 2128,
+    "api_call_count": 6
+  },
+  "session_metrics": {
+    "turn_count": 1
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-06-27T15:21:11.6923252Z",
+    "agent_lines": 0,
+    "agent_removed": 0,
+    "human_added": 303,
+    "human_modified": 5,
+    "human_removed": 0,
+    "total_committed": 303,
+    "total_lines_changed": 610,
+    "agent_percentage": 0,
+    "metric_version": 2
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 16,
+      "user_lines_removed": 5,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0,
+      "user_added_per_file": {
+        "kaggle_baseline.py": 16
+      },
+      "user_removed_per_file": {
+        "kaggle_baseline.py": 5
+      }
+    },
+    {
+      "checkpoint_number": 2,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 324,
+      "agent_lines_removed": 313
+    }
+  ]
+}
