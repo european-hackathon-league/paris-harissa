@@ -19,10 +19,17 @@ config/paths/device are adapted for Kaggle. It is our REFERENCE score,
 not a strong solution.
 """
 
-# --- Kaggle setup: install MONAI (torch is already present) -----------------
+# --- Setup: install MONAI (torch is already present) ------------------------
+# On Kaggle we pip-install MONAI/nibabel at runtime. On other machines (e.g. the
+# AMD MI300X box) install deps yourself first so pip can't clobber the ROCm torch
+# build -- see the run instructions. INSTALL_DEPS defaults to on only on Kaggle;
+# force it anywhere with INSTALL_DEPS=1.
+import os
 import subprocess, sys
-subprocess.run([sys.executable, "-m", "pip", "install", "-q",
-                "monai>=1.5.0", "nibabel>=5.3"], check=True)
+
+if os.environ.get("INSTALL_DEPS", "1" if os.path.isdir("/kaggle/input") else "0") == "1":
+    subprocess.run([sys.executable, "-m", "pip", "install", "-q",
+                    "monai>=1.5.0", "nibabel>=5.3"], check=True)
 
 import csv
 import json
@@ -54,8 +61,12 @@ from tqdm import tqdm
 # environment (e.g. /kaggle/input/competitions/.../foo.nii.gz) and the listed
 # extension (.nii.gz) does not match the actual files (.nii). So we ignore the
 # stored paths entirely and resolve every image by its ID via a glob index.
-INPUT_ROOT = Path("/kaggle/input")
-WORK_DIR = Path("/kaggle/working")
+# Override these on non-Kaggle machines (e.g. the AMD box) via env vars:
+#   DATA_INPUT_ROOT  -> folder to glob for dataset1/2/3 (default /kaggle/input)
+#   WORK_DIR         -> output + MONAI cache dir   (default /kaggle/working)
+INPUT_ROOT = Path(os.environ.get("DATA_INPUT_ROOT", "/kaggle/input"))
+WORK_DIR = Path(os.environ.get("WORK_DIR", "/kaggle/working"))
+WORK_DIR.mkdir(parents=True, exist_ok=True)
 OUT_PATH = WORK_DIR / "submission.csv"
 
 
