@@ -27,3 +27,9 @@ is the thing that i have open on the browser SSH? can i like open it on vscode? 
 ---
 
 how do i setup the ssh myself actually, i can help you do that
+
+---
+
+C:\Users\amine>ssh amd
+Bad permissions. Try removing permissions for user: UNKNOWN\\UNKNOWN (S-1-5-21-4164113636-2183645680-36870625-1005) on file C:/Users/amine/.ssh/config.
+Bad owner or permissions on C:\\Users\\amine/.ssh/config
