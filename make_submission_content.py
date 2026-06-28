@@ -63,8 +63,14 @@ def rank_d2(qids, gids):
     return rk.rank_mind(q, g, DEV)
 
 
+D3_MIND_W = float(os.environ.get("D3_MIND_W", "0"))   # >0 adds a global-MIND tiebreak to d3
+
+
 def rank_d3(qids, gids):
-    return ms.rank_shape(qids, gids)           # shape-dominant + fingerprint tiebreak
+    base = ms.rank_shape(qids, gids)           # shape-dominant + fingerprint tiebreak (the 0.61 d3)
+    if D3_MIND_W > 0:                          # opt-in: MIND breaks ties the shape prior leaves
+        return _rn(base) + D3_MIND_W * _rn(rk.rank_mind(load(qids), load(gids), DEV))
+    return base
 
 
 SETS = [("dataset1", "val", rank_d1), ("dataset1", "test", rank_d1),

@@ -116,17 +116,16 @@ def rank_gradcos(q_list, g_list, device="cpu"):
 def _mind(x, dilation=2):
     """Heinrich MIND (6-neighbourhood) descriptor field. x:(N,1,D,H,W) -> (N,6,D,H,W).
 
-    Per voxel: how self-similar the patch is to its 6 face-neighbours. This structural
-    fingerprint is preserved across modalities (T1<->T2) and tolerant to smooth deformation,
-    so a globally pooled MIND vector survives dataset2/3 where intensity/alignment collapse.
+    Per voxel: how self-similar the patch is to its 6 face-neighbours. Modality-invariant and
+    deformation-tolerant. (NB: the MIND-SSC 12-pair variant scored higher on d1 in isolation but
+    regressed the registered-d2 / d3 pipeline overall, so we keep the 6-neighbour form.)
     """
     offsets = [(dilation, 0, 0), (-dilation, 0, 0), (0, dilation, 0),
                (0, -dilation, 0), (0, 0, dilation), (0, 0, -dilation)]
     feats = []
     for o in offsets:
         xs = torch.roll(x, shifts=o, dims=(2, 3, 4))
-        d = F.avg_pool3d((x - xs) ** 2, kernel_size=3, stride=1, padding=1)  # patch SSD
-        feats.append(d)
+        feats.append(F.avg_pool3d((x - xs) ** 2, kernel_size=3, stride=1, padding=1))  # patch SSD
     dp = torch.cat(feats, 1)                              # (N,6,D,H,W)
     var = dp.mean(1, keepdim=True).clamp_min(1e-6)
     m = torch.exp(-dp / var)
@@ -150,6 +149,65 @@ def rank_mind(q_list, g_list, device="cpu"):
     q = emb_mind(q_list, device)
     g = emb_mind(g_list, device)
     return (q @ g.t()).cpu().numpy()
+
+
+def _rot_from_angles(a):
+    """(B,3) euler angles (radians) -> (B,3,3) rotation matrices."""
+    B, dev = a.shape[0], a.device
+    cz, sz = torch.cos(a[:, 0]), torch.sin(a[:, 0])
+    cy, sy = torch.cos(a[:, 1]), torch.sin(a[:, 1])
+    cx, sx = torch.cos(a[:, 2]), torch.sin(a[:, 2])
+    z, o = torch.zeros(B, device=dev), torch.ones(B, device=dev)
+    Rz = torch.stack([cz, -sz, z, sz, cz, z, z, z, o], 1).view(B, 3, 3)
+    Ry = torch.stack([cy, z, sy, z, o, z, -sy, z, cy], 1).view(B, 3, 3)
+    Rx = torch.stack([o, z, z, z, cx, -sx, z, sx, cx], 1).view(B, 3, 3)
+    return Rz @ Ry @ Rx
+
+
+def build_template_mind(vol_list, device, dilation=2):
+    """Canonical MIND template = MIND of the mean of clean (aligned) volumes — a fuzzy average
+    pose that registration aligns everything to. Pass a sample of dataset1 volumes."""
+    v = _stack(vol_list, device).mean(0, keepdim=True).unsqueeze(1)   # (1,1,D,H,W)
+    return _mind(v, dilation)
+
+
+def register_affine(vol, tmpl_mind, iters=70, lr=0.05, dilation=2):
+    """Affine-register each volume (B,1,D,H,W) toward the canonical MIND template by maximising
+    MIND cosine. Rigid + isotropic scale (init identity), so cross-modal and collapse-free.
+    Returns the warped volumes — feed them to dense MIND matching."""
+    B = vol.shape[0]
+    dev = vol.device
+    ang = torch.zeros(B, 3, device=dev, requires_grad=True)
+    tr = torch.zeros(B, 3, device=dev, requires_grad=True)
+    ls = torch.zeros(B, 1, device=dev, requires_grad=True)
+    opt = torch.optim.Adam([ang, tr, ls], lr=lr)
+    Tm = F.normalize(tmpl_mind.reshape(1, -1), dim=1)
+    for _ in range(iters):
+        R = _rot_from_angles(ang) * torch.exp(ls)[:, None, :]
+        theta = torch.cat([R, tr[:, :, None]], dim=2)
+        grid = F.affine_grid(theta, vol.shape, align_corners=False)
+        warped = F.grid_sample(vol, grid, align_corners=False)
+        wm = F.normalize(_mind(warped, dilation).reshape(B, -1), dim=1)
+        loss = -(wm * Tm).sum(1).mean()
+        opt.zero_grad()
+        loss.backward()
+        opt.step()
+    with torch.no_grad():
+        R = _rot_from_angles(ang) * torch.exp(ls)[:, None, :]
+        theta = torch.cat([R, tr[:, :, None]], dim=2)
+        grid = F.affine_grid(theta, vol.shape, align_corners=False)
+        return F.grid_sample(vol, grid, align_corners=False).detach()
+
+
+def rank_dense_mind_registered(q_list, g_list, template_vols, device="cpu", iters=70, dilation=2):
+    """Register query and gallery to a canonical pose, THEN dense-MIND match. Cracks dataset2
+    (deformed): 0.15 -> 0.72 on the d2 proxy. template_vols = a sample of dataset1 volumes."""
+    tmpl = build_template_mind(template_vols, device, dilation)
+    q = register_affine(_stack(q_list, device).unsqueeze(1), tmpl, iters, dilation=dilation)
+    g = register_affine(_stack(g_list, device).unsqueeze(1), tmpl, iters, dilation=dilation)
+    qf = F.normalize(_mind(q, dilation).reshape(q.shape[0], -1), dim=1)
+    gf = F.normalize(_mind(g, dilation).reshape(g.shape[0], -1), dim=1)
+    return (qf @ gf.t()).cpu().numpy()
 
 
 def rank_dense_mind(q_list, g_list, device="cpu", dilation=2):

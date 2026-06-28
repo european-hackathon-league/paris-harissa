@@ -55,29 +55,60 @@ def resolve_brats():
     Honours BRATS_ROOT first, then a few common spots. The first location that actually
     contains *_t1ce.nii volumes wins, so the download dir doesn't have to be exact.
     """
-    cands = [os.environ.get("BRATS_ROOT", ""), "/workspace/brats",
-             "/workspace/brats/BraTS2021_Training_Data", "/shared-docker/amine/brats",
-             "/shared-docker/amine/brats/BraTS2021_Training_Data", "/shared-docker/amine"]
-    for c in cands:
-        if c and Path(c).exists() and next(Path(c).glob("**/*_t1ce.nii*"), None) is not None:
-            print(f"[brats] resolved BRATS_ROOT -> {c}")
+    def _has_ref(p):
+        for q in p.glob("**/*.nii*"):                       # any post-contrast-T1 file -> usable ref
+            if re.search(r"[_-](t1ce|t1c|t1gd)\.nii", q.name, re.I):
+                return True
+        return False
+
+    env_root = os.environ.get("BRATS_ROOT", "").strip()
+    if env_root:
+        # explicit root: use it or FAIL LOUDLY — never silently fall back to a different dataset
+        p = Path(env_root)
+        if not p.exists():
+            raise FileNotFoundError(f"BRATS_ROOT={env_root} does not exist.")
+        if not _has_ref(p):
+            n = sum(1 for _ in p.glob("**/*.nii*"))
+            raise FileNotFoundError(
+                f"BRATS_ROOT={env_root} has {n} .nii files but none match a post-contrast-T1 name "
+                f"(*_t1ce/_t1c/_t1gd). Run:  find {env_root} -name '*.nii*' | head  and tell Claude "
+                f"an example filename so the matcher can be adjusted.")
+        print(f"[ref] resolved reference root -> {env_root}")
+        return p
+
+    for c in ["/workspace/ucsf", "/workspace/upenn", "/workspace/brats",
+              "/workspace/brats/BraTS2021_Training_Data", "/shared-docker/amine/ucsf",
+              "/shared-docker/amine/brats"]:
+        if Path(c).exists() and _has_ref(Path(c)):
+            print(f"[ref] resolved reference root -> {c}")
             return Path(c)
-    raise FileNotFoundError(
-        "No BraTS *_t1ce.nii found. Set BRATS_ROOT to the dir that contains the BraTS2021_* "
-        "folders. Searched: " + ", ".join(c for c in cands if c))
+    raise FileNotFoundError("No reference ceT1 found and BRATS_ROOT not set.")
+
+
+import re
+
+# modality tokens across conventions: BraTS (_t1ce/_t2), UCSF-PDGM (_T1c/_T2), UPENN-GBM, BraTS2023.
+_CE_RE = re.compile(r"[_-](t1ce|t1c|t1gd|t1ce_unstripped)\.nii", re.I)   # post-contrast T1
+_T2_RE = re.compile(r"[_-](t2|t2w)\.nii", re.I)                          # T2 (not t2f/flair)
 
 
 def index_brats():
     base = resolve_brats()
     t1ce, t2 = {}, {}
-    for p in base.glob("**/*_t1ce.nii*"):
-        t1ce[p.name.split("_t1ce")[0]] = p
-    for p in base.glob("**/*_t2.nii*"):
-        t2[p.name.split("_t2")[0]] = p
+    for p in base.glob("**/*.nii*"):
+        m = _CE_RE.search(p.name)
+        if m:
+            t1ce[p.name[:m.start()]] = p
+            continue
+        m = _T2_RE.search(p.name)
+        if m:
+            t2[p.name[:m.start()]] = p
     pids = sorted(set(t1ce) & set(t2))
     if not pids:
-        raise FileNotFoundError(f"No BraTS *_t1ce/*_t2 pairs under {BRATS}")
-    print(f"BraTS patients with both T1ce+T2: {len(pids)}")
+        raise FileNotFoundError(
+            f"No post-contrast-T1 + T2 pairs found under the reference root. Checked names like "
+            f"*_t1ce/_t1c/_T1c and *_t2/_T2. Tell Claude an example filename.")
+    print(f"reference patients with both ceT1+T2: {len(pids)}")
     return pids, t1ce, t2
 
 
@@ -85,8 +116,10 @@ def build_ref():
     """Descriptor matrices for all BraTS T1ce and T2 (cached to .npy)."""
     CACHE.mkdir(exist_ok=True)
     pids, t1ce, t2 = index_brats()
-    # cache key encodes the descriptor variant so a stale cache is never silently reused
-    sig = f"d{D}_b{os.environ.get('LOOKUP_BLUR','0.6')}_ms{os.environ.get('LOOKUP_MULTISCALE','1')}"
+    # cache key encodes the reference root + descriptor variant so a stale cache (e.g. BraTS vs
+    # UCSF) is never silently reused
+    root_tag = resolve_brats().name or "ref"
+    sig = f"{root_tag}_d{D}_b{os.environ.get('LOOKUP_BLUR','0.6')}_ms{os.environ.get('LOOKUP_MULTISCALE','1')}"
     cp = CACHE / f"ref_{sig}.npz"
     if cp.exists():
         z = np.load(cp, allow_pickle=True)

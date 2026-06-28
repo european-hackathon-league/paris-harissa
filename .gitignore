@@ -20,3 +20,6 @@ Thumbs.db
 .DS_Store
 /data
 .vol_cache/
+
+# Office lock / temp files
+~$*
