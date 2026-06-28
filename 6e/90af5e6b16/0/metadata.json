@@ -1,0 +1,68 @@
+{
+  "cli_version": "0.7.7",
+  "checkpoint_id": "6e90af5e6b16",
+  "session_id": "9b1e9233-3e51-4835-858b-86c0c1dedc2e",
+  "strategy": "manual-commit",
+  "created_at": "2026-06-28T10:41:20.5161358Z",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [],
+  "agent": "Claude Code",
+  "model": "",
+  "turn_id": "97be627b4cfb",
+  "checkpoint_transcript_start": 201,
+  "transcript_lines_at_start": 201,
+  "token_usage": {
+    "input_tokens": 6,
+    "cache_creation_tokens": 5278,
+    "cache_read_tokens": 419670,
+    "output_tokens": 5087,
+    "api_call_count": 4
+  },
+  "skill_events_version": 1,
+  "skill_events": [
+    {
+      "id": "claude-skill-toolu_01GqxdfmBptGDveQaQaTvD5R",
+      "event_type": "tool_invocation",
+      "skill": {
+        "name": "anthropic-skills:pptx"
+      },
+      "source": {
+        "agent": "claude-code",
+        "signal": "skill_tool_use",
+        "confidence": "explicit"
+      },
+      "turn_id": "97be627b4cfb",
+      "transcript_anchor": {
+        "unit": "line",
+        "start": 26,
+        "end": 27,
+        "entry_ids": [
+          "ca891db9-91bd-468c-baa6-ed01047c1ef9"
+        ],
+        "tool_use_id": "toolu_01GqxdfmBptGDveQaQaTvD5R"
+      },
+      "native": {
+        "tool_name": "Skill",
+        "tool_use_id": "toolu_01GqxdfmBptGDveQaQaTvD5R"
+      },
+      "collapse": {
+        "target": "tool_pair",
+        "label": "Skill: anthropic-skills:pptx",
+        "default_collapsed": true
+      }
+    }
+  ],
+  "session_metrics": {
+    "turn_count": 4
+  },
+  "prompt_attributions": [
+    {
+      "checkpoint_number": 1,
+      "user_lines_added": 0,
+      "user_lines_removed": 0,
+      "agent_lines_added": 0,
+      "agent_lines_removed": 0
+    }
+  ]
+}
