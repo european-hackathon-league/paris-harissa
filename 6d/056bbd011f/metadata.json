@@ -1,0 +1,52 @@
+{
+  "cli_version": "0.7.7",
+  "checkpoint_id": "6d056bbd011f",
+  "strategy": "manual-commit",
+  "branch": "main",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "eval_harness.py",
+    "kaggle_baseline.py",
+    "make_submission.py",
+    "make_submission_best.py",
+    "make_submission_content.py",
+    "make_submission_positional.py",
+    "notebooks/run_eval.ipynb",
+    "notebooks/run_lookup.ipynb",
+    "notebooks/run_submission.ipynb",
+    "rankers.py",
+    "run_eval.ipynb",
+    "run_lookup.ipynb",
+    "run_submission.ipynb",
+    "scripts/make_submission.py",
+    "scripts/make_submission_best.py",
+    "scripts/make_submission_content.py",
+    "scripts/make_submission_positional.py",
+    "split_submission.py",
+    "src/eval_harness.py",
+    "src/kaggle_baseline.py",
+    "src/rankers.py",
+    "src/split_submission.py",
+    "submission_1.csv",
+    "submission_2.csv",
+    "submission_3.csv",
+    "submissions/submission_1.csv",
+    "submissions/submission_2.csv",
+    "submissions/submission_3.csv"
+  ],
+  "sessions": [
+    {
+      "metadata": "/6d/056bbd011f/0/metadata.json",
+      "transcript": "/6d/056bbd011f/0/full.jsonl",
+      "content_hash": "/6d/056bbd011f/0/content_hash.txt",
+      "prompt": ""
+    }
+  ],
+  "token_usage": {
+    "input_tokens": 0,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 0,
+    "api_call_count": 0
+  }
+}
