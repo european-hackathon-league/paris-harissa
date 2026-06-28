@@ -21,5 +21,9 @@ Thumbs.db
 /data
 .vol_cache/
 
+# VS Code / Entire / Local tools
+.claude/
+.entire/
+
 # Office lock / temp files
 ~$*
